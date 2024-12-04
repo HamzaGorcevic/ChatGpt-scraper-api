@@ -55,7 +55,6 @@ def get_response(browser):
         )
 
         response_text = response_div[-1].text if response_div else "No response found."
-        print("Response received:", response_text)
         return response_text
 
     except Exception as e:
@@ -71,7 +70,7 @@ def scrape_gpt(msg:str) ->str:
         browser = uc.Chrome()
 
         # Open the ChatGPT page
-        browser.get("https://chatgpt.com/")
+        browser.get("https://chat.openai.com/")
 
         response = send_message_to_chatgpt(browser,msg)
         return response

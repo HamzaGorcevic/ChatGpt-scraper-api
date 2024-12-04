@@ -5,23 +5,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-def retry(func, retries=3, delay=2):
-    for attempt in range(retries):
-        try:
-            func()
-            return
-        except Exception as e:
-            print(f"Attempt {attempt + 1} failed with error: {e}")
-            time.sleep(delay)
-    print(f"All {retries} attempts failed.")
-
-def send_message_to_chatgpt(browser,message):
+def send_message_to_chatgpt(browser, message):
     try:
         # Locate the contenteditable div by its ID
         editable_div = WebDriverWait(browser, 100).until(
             EC.visibility_of_element_located((By.ID, 'prompt-textarea'))
         )
+        
+        # Scroll the element into view and wait a bit
+        browser.execute_script("arguments[0].scrollIntoView(true);", editable_div)
+        time.sleep(2)
+        
         editable_div.click()
+        time.sleep(1)
         editable_div.send_keys(message)
 
         # Wait for the send button to become enabled and click it
@@ -36,18 +32,13 @@ def send_message_to_chatgpt(browser,message):
             EC.invisibility_of_element_located((By.XPATH, "//button[@aria-label='Stop streaming']"))
         )
 
-        # Wait for the "Send prompt" button to become visible again
-        send_button = WebDriverWait(browser, 300).until(
-            EC.visibility_of_element_located((By.XPATH, "//button[@aria-label='Send prompt']"))
-        )
-
         # Wait for the response to be visible
         response_text = get_response(browser)
         return response_text
 
     except Exception as e:
         print(f"Error sending message: {e}")
-        print(browser.page_source)
+        return None
 
 def get_response(browser):
     try:
@@ -65,26 +56,44 @@ def get_response(browser):
 def scrape_gpt(msg: str) -> str:
     browser = None
     try:
-        # Set up Chrome options
-        options = Options()
-        options.headless = False  # Set to True if you want to run without UI (headless)
-
-        # Specify the path to the Chrome binary
-        options.binary_location = "/usr/bin/google-chrome"  # Replace with your path if different
-
-        # Launch Chrome with the specified options
+        options = uc.ChromeOptions()
+        
+        # Essential options for better stability
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--disable-notifications')
+        options.add_argument('--disable-popup-blocking')
+        
+        # Set window size for headless mode
+        options.add_argument('--window-size=1920,1080')
+        
+        # User agent to appear more like a real browser
+        options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
+        
+        # Enable headless mode
+        options.headless = True
+        
+        # Initialize the browser with a longer page load timeout
         browser = uc.Chrome(options=options)
-
-        # Open the ChatGPT page
+        browser.set_page_load_timeout(30)
+        
+        # Open ChatGPT and wait for initial load
         browser.get("https://chat.openai.com/")
-
+        time.sleep(5)  # Give extra time for the page to fully load
+        
+        # Send message and get response
         response = send_message_to_chatgpt(browser, msg)
         return response
+        
     except Exception as e:
         print(f"An error occurred: {e}")
+        return None
+        
     finally:
-        if browser is not None:
+        if browser:
             try:
                 browser.quit()
             except Exception as e:
                 print(f"Error during browser.quit(): {e}")
+

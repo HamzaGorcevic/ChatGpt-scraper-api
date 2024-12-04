@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 
 # Virtual Environment
+myenv/
+
 venv/
 .env/
 .env.*
@@ -22,7 +24,6 @@ instance/
 *.sqlite
 
 # Environment Configurations
-.myenv
 
 .env
 *.env

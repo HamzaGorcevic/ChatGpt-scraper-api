@@ -1,0 +1,76 @@
+# Python Bytecode and Compiled Files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.env/
+.env.*
+
+# Logs and Debugging
+*.log
+*.pot
+*.sqlite3
+instance/
+
+# Cache Files
+*.cache
+*.pkl
+*.db
+*.dat
+*.sqlite
+
+# Environment Configurations
+.env
+*.env
+config.json
+
+# OS Specific Files
+.DS_Store
+Thumbs.db
+
+# Python Test Coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.nox/
+*.cover
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage.xml
+*.coveragerc
+*.pytest_cache
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.iml
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# FastAPI/Static Files
+static/
+media/
+
+# Docker
+*.env.docker
+.dockerignore
+
+# Build Files
+build/
+dist/
+*.egg-info/
+.eggs/

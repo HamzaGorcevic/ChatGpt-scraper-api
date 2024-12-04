@@ -59,6 +59,7 @@ def scrape_gpt(msg: str) -> str:
         options = uc.ChromeOptions()
         
         # Essential options for better stability
+        options.binary_location = "/usr/bin/google-chrome"
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--disable-gpu')

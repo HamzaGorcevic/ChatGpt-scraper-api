@@ -1,4 +1,5 @@
 import undetected_chromedriver as uc
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -61,26 +62,29 @@ def get_response(browser):
         print(f"Error retrieving response: {e}")
         return None
 
-
-
-def scrape_gpt(msg:str) ->str:
+def scrape_gpt(msg: str) -> str:
     browser = None
     try:
+        # Set up Chrome options
+        options = Options()
+        options.headless = False  # Set to True if you want to run without UI (headless)
 
-        browser = uc.Chrome()
+        # Specify the path to the Chrome binary
+        options.binary_location = "/usr/bin/google-chrome"  # Replace with your path if different
+
+        # Launch Chrome with the specified options
+        browser = uc.Chrome(options=options)
 
         # Open the ChatGPT page
         browser.get("https://chat.openai.com/")
 
-        response = send_message_to_chatgpt(browser,msg)
+        response = send_message_to_chatgpt(browser, msg)
         return response
     except Exception as e:
         print(f"An error occurred: {e}")
-
     finally:
         if browser is not None:
             try:
                 browser.quit()
             except Exception as e:
                 print(f"Error during browser.quit(): {e}")
-

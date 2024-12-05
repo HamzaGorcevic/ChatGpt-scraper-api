@@ -21,15 +21,14 @@ Send a POST request to `/chatgpt` with a JSON body:
 {
   "message": "Your prompt here"
 }
-Response
-{
-  "response": "ChatGPT's reply"
-}
-Curl Example
+```
+### Curl Example
+```
 curl -X POST https://chatgpt-scraper-api.onrender.com/chatgpt \
 -H "Content-Type: application/json" \
 -d '{"message": "Hello, ChatGPT!"}'
-Hosted API
+```
+### Hosted API
 Live at: https://chatgpt-scraper-api.onrender.com
 
 License

@@ -1,16 +1,37 @@
-﻿# ChatGpt-scraper-api
- 
-FastAPI ChatGPT Integration
-This FastAPI project provides a simple API with a single route that sends a prompt to ChatGPT, retrieves the response, and returns it. This API currently opens a new chat for each request.
+# ChatGPT Scraper API
 
-Features
-POST Request with Prompt: A single endpoint that accepts a prompt as input.
-ChatGPT Integration: Sends prompt to ChatGPT and scrapes the response.
-Easy Setup: Minimal setup required with FastAPI and requests.
-Getting Started
-Prerequisites
-Python 3.7+
-FastAPI
-Requests library
-Installation
+A FastAPI project for sending prompts to ChatGPT and retrieving responses. Each request starts a new chat session.
+
+## Features
+- **POST Endpoint**: Send a prompt and get ChatGPT's response.
+- **Easy Setup**: Built with FastAPI and `requests`.
+
+## Installation
+1. Clone the repository:  
+   `git clone https://github.com/yourusername/chatgpt-scraper-api.git && cd chatgpt-scraper-api`
+2. Install dependencies:  
+   `pip install -r requirements.txt`
+3. Run the server:  
+   `uvicorn main:app --reload`
+
+## Usage
+### Example Request
+Send a POST request to `/chatgpt` with a JSON body:
+```json
+{
+  "message": "Your prompt here"
+}
+Response
+{
+  "response": "ChatGPT's reply"
+}
+Curl Example
+curl -X POST https://chatgpt-scraper-api.onrender.com/chatgpt \
+-H "Content-Type: application/json" \
+-d '{"message": "Hello, ChatGPT!"}'
+Hosted API
+Live at: https://chatgpt-scraper-api.onrender.com
+
+License
+This project is licensed under the MIT License.
 
